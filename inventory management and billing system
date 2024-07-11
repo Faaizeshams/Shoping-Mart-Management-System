@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-struct managing{
+struct Product {
     char p_name[20];
     int p_id;
     int exp;
@@ -17,162 +17,161 @@ struct managing{
     int de, me, ye;
 };
 
-int main(){
-    struct managing management[30];
+int main() {
+    struct Product management[30];
     FILE *fp;
-    int a,i,new,j,k,m,name,l,z=0,h,sumf=0,sum=0,x=0,t=0,g=0;
-    printf("Enter 0 if you want to enter the details of new product or enter 1 if you want to update the product or enter 2 if you want to do the billing process");
-    scanf("%d",&a);
-    if(a==0)
-    {
-        printf("Enter the no. of product you want to enter ");
-        scanf("%d",&a);
-        for (i=0;i<a;i++){
-            printf("Enter the name of the product %d ",i);
-            gets(management[i].p_name);
-            printf("Enter the product id of product %d ",i);
-            scanf("%d",&management[i].p_id);
-            printf("Enter if the product %d can be expired in 5 days, if yes press 0 else press 1 ",i);
-            scanf("%d",&management[i].exp);
-            printf("Enter the price of product %d ",i);
-            scanf("%f",&management[i].price);
-            printf("Enter the manufacturer of product %d ",i);
-            gets(management[i].p_manu);
-            printf("Enter the place of putting the product %d ",i);
-            gets(management[i].rack);
-            printf("Enter the date of putting the product %d in the store ",i);
-            scanf("%d%d%d",&management[i].dp,&management[i].mp,&management[i].yp);
-            printf("Enter the date of expiry of the product %d ",i);
-            scanf("%d%d%d",&management[i].de,&management[i].me,&management[i].ye);
-        }
-    }
-    else if(a==1)
-          {
-        printf("Enter the product id : ");
-              scanf("%d",&name);
-              for(i=0;i<a;i++)
-              {
-                  if(new==management[i].p_id);
-                  {
-                      printf("Enter the name of the product %d ",i);
-                      gets(management[i].p_name);
-                      printf("Enter the product id of product %d ",i);
-                      scanf("%d",&management[i].p_id);
-                      printf("Enter the price of product %d ",i);
-                      scanf("%f",&management[i].price);
-                      printf("Enter the manufacturer of product %d ",i);
-                      gets(management[i].p_manu);
-                      printf("Enter the place of putting the product %d ",i);
-                      gets(management[i].rack);
-                      printf("Enter the date of putting the product %d in the store ",i);
-                      scanf("%d%d%d",&management[i].dp,&management[i].mp,&management[i].yp);
-                      printf("Enter the date of expiry of the product %d ",i);
-                      scanf("%d%d%d",&management[i].de,&management[i].me,&management[i].ye);
-                  }
-              }
-          }
-    else if(a==2)
-    {
-        printf("Enter the no. of product you want to enter ");
-        scanf("%d",&a);
-        printf("Enter the current date ");
-        scanf("%d",&m);
-        for(i=0;i<a;i++)
-        {
-            printf("Enter the product id of product %d ",i);
-            scanf("%d",&name);
-            printf("Enter 0, if the product is food product and enter 1 if it is not");
-            scanf("%d",&l);
-            for(j=0;j<a;j++)
-            {
-                if(name==management[j].p_id)
-                {
-                    if(management[j].exp==0)
-                    {
-                        fp = fopen("bill.txt","w");
-                        putw(i,fp);
-                        fputs(management[j].p_name,fp);
-                        putw(management[j].price,fp);
-                        putc('\n',fp);
-                        
-                        k=m-management[j].dp;
-                        z=management[j].price;
-                        if(k<0)
-                        {
-                            k*=-1;
-                        }
-                        for(h=1;h<=k;h++)
-                        {
-                            z=z-((z*5)/100);
-                        }
-                        if (sum==0)
-                        {
-                            sumf=sumf+z;
-                        }
-                        else
-                            sum=sum+z;
-                    }
-                    else
-                    {
-                        if (sum==0)
-                        {
-                            sumf=sumf+management[j].price;
-                        }
-                        else
-                            sum=sum+management[j].price;
+    int choice, i, j, k, m, name, l, z = 0, h, sumf = 0, sum = 0, x = 0, t = 0, g = 0;
 
+    printf("Enter 0 to enter new product details, 1 to update product, or 2 to do billing: ");
+    scanf("%d", &choice);
+
+    if (choice == 0) {
+        printf("Enter the number of products you want to enter: ");
+        scanf("%d", &choice);
+
+        for (i = 0; i < choice; i++) {
+            printf("Enter the name of product %d: ", i);
+            getchar(); // to clear the newline character left in buffer
+            fgets(management[i].p_name, sizeof(management[i].p_name), stdin);
+
+            printf("Enter the product id of product %d: ", i);
+            scanf("%d", &management[i].p_id);
+
+            printf("Enter 0 if the product %d can expire in 5 days, otherwise enter 1: ", i);
+            scanf("%d", &management[i].exp);
+
+            printf("Enter the price of product %d: ", i);
+            scanf("%f", &management[i].price);
+
+            printf("Enter the manufacturer of product %d: ", i);
+            getchar(); // to clear the newline character left in buffer
+            fgets(management[i].p_manu, sizeof(management[i].p_manu), stdin);
+
+            printf("Enter the place of putting the product %d: ", i);
+            fgets(management[i].rack, sizeof(management[i].rack), stdin);
+
+            printf("Enter the date of putting the product %d in the store (dd mm yyyy): ", i);
+            scanf("%d %d %d", &management[i].dp, &management[i].mp, &management[i].yp);
+
+            printf("Enter the date of expiry of the product %d (dd mm yyyy): ", i);
+            scanf("%d %d %d", &management[i].de, &management[i].me, &management[i].ye);
+        }
+    } 
+    else if (choice == 1) {
+        printf("Enter the product id to update: ");
+        scanf("%d", &name);
+
+        for (i = 0; i < choice; i++) {
+            if (name == management[i].p_id) {
+                printf("Enter the name of the product %d: ", i);
+                getchar(); // to clear the newline character left in buffer
+                fgets(management[i].p_name, sizeof(management[i].p_name), stdin);
+
+                printf("Enter the product id of product %d: ", i);
+                scanf("%d", &management[i].p_id);
+
+                printf("Enter the price of product %d: ", i);
+                scanf("%f", &management[i].price);
+
+                printf("Enter the manufacturer of product %d: ", i);
+                getchar(); // to clear the newline character left in buffer
+                fgets(management[i].p_manu, sizeof(management[i].p_manu), stdin);
+
+                printf("Enter the place of putting the product %d: ", i);
+                fgets(management[i].rack, sizeof(management[i].rack), stdin);
+
+                printf("Enter the date of putting the product %d in the store (dd mm yyyy): ", i);
+                scanf("%d %d %d", &management[i].dp, &management[i].mp, &management[i].yp);
+
+                printf("Enter the date of expiry of the product %d (dd mm yyyy): ", i);
+                scanf("%d %d %d", &management[i].de, &management[i].me, &management[i].ye);
+            }
+        }
+    } 
+    else if (choice == 2) {
+        printf("Enter the number of products for billing: ");
+        scanf("%d", &choice);
+
+        printf("Enter the current date (dd): ");
+        scanf("%d", &m);
+
+        for (i = 0; i < choice; i++) {
+            printf("Enter the product id of product %d: ", i);
+            scanf("%d", &name);
+
+            printf("Enter 0 if the product is food product and 1 if it is not: ");
+            scanf("%d", &l);
+
+            for (j = 0; j < choice; j++) {
+                if (name == management[j].p_id) {
+                    if (management[j].exp == 0) {
+                        fp = fopen("bill.txt", "w");
+                        fprintf(fp, "%d\n", i);
+                        fputs(management[j].p_name, fp);
+                        fprintf(fp, "%f\n", management[j].price);
+                        fclose(fp);
+
+                        k = m - management[j].dp;
+                        z = management[j].price;
+                        if (k < 0) {
+                            k *= -1;
+                        }
+                        for (h = 1; h <= k; h++) {
+                            z = z - ((z * 5) / 100);
+                        }
+                        if (sum == 0) {
+                            sumf = sumf + z;
+                        } else {
+                            sum = sum + z;
+                        }
+                    } else {
+                        if (sum == 0) {
+                            sumf = sumf + management[j].price;
+                        } else {
+                            sum = sum + management[j].price;
+                        }
                     }
                 }
             }
         }
     }
-          printf("Enter 0, if the user have membership card and the product is more than rs 250\nEnter 1 if the occasional discount is applying");
-          scanf("%d",&h);
-          if(h==0)
-          {
-            if(sum+sumf>=500)
-            {
-                x=sumf+sum;
-                t=x-(x*5/100);
-                g=t;
-                printf("The total cost of the products is %d",g);
+
+    printf("Enter 0 if the user has a membership card and the product is more than Rs. 250, otherwise enter 1: ");
+    scanf("%d", &h);
+
+    if (h == 0) {
+        if (sum + sumf >= 500) {
+            x = sumf + sum;
+            t = x - (x * 5 / 100);
+            g = t;
+            printf("The total cost of the products is %d\n", g);
+        }
+        if (sumf + sum >= 250 && sumf + sum <= 500) {
+            x = sum - (sum * 2 / 100);
+            t = sumf - (sumf * 2 / 100);
+            if (sumf >= 250) {
+                t = sumf - (sumf * 4 / 100);
             }
-            if(sumf+sum>=250 && sumf+sum<=500)
-            {
-                x=sum-(sum*2/100);
-                t=sumf-(sumf*2/100);
-                if(sumf>=250)
-                {
-                    t=sumf-(sumf*4/100);
-                }
-                g=x+t;
-                printf("The total cost of the products is %d",g);
-            }
-            else{
-                g=sumf+sum;
-                
-            }
-          }
-        
-          else
-          {
-            printf("Enter the no. of discount to be given on ocassional events(basically between 5-10%) ");
-            scanf("%d",&h);
-            x=sumf+sum;
-            g=g-(g*h/100);
-            printf("The total cost of the products is %d",g);
-          }
-                  int bo = sumf+sum;
-                  char str[30];
-                  strcpy(str,"Total sum of product is : ");
-                  fputs(str,fp);
-                  putw(bo,fp);
-                  putc('\n',fp);
-                  strcpy(str,"Total sum of product after discount is : ");
-                  fputs(str,fp);
-                  putw(g,fp);
-                  fclose(fp);
+            g = x + t;
+            printf("The total cost of the products is %d\n", g);
+        } else {
+            g = sumf + sum;
+        }
+    } else {
+        printf("Enter the discount percentage for occasional events (5-10%%): ");
+        scanf("%d", &h);
+        x = sumf + sum;
+        g = g - (g * h / 100);
+        printf("The total cost of the products is %d\n", g);
+    }
+
+    int bo = sumf + sum;
+    fp = fopen("bill.txt", "a");
+    fprintf(fp, "Total sum of products is: %d\n", bo);
+    fprintf(fp, "Total sum of products after discount is: %d\n", g);
+    fclose(fp);
+
+    return 0;
 }
 
-                  
 
